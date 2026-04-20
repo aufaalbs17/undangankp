@@ -282,7 +282,16 @@
                 return;
             }
 
-            const commentsArray = Object.values(commentsData).reverse();
+            // Convert to array and filter out invalid/empty entries
+            const commentsArray = Object.values(commentsData)
+                .filter(c => c.name && c.name.trim() !== "" && c.message && c.message.trim() !== "")
+                .reverse();
+
+            if (commentsArray.length === 0) {
+                commentsList.innerHTML = '<p class="empty-state">Belum ada ucapan. Jadilah yang pertama!</p>';
+                return;
+            }
+
             commentsList.innerHTML = commentsArray.map(comment => `
                 <div class="comment-card">
                     <div class="comment-header">
@@ -329,6 +338,7 @@
 
             if (name && message) {
                 submitBtn.disabled = true;
+                const originalText = submitBtn.innerText;
                 submitBtn.innerText = "Mengirim...";
 
                 push(commentsRef, {
@@ -338,14 +348,18 @@
                 }).then(() => {
                     nameInput.value = '';
                     messageInput.value = '';
+                    // Reset height for auto-resize textarea
+                    messageInput.style.height = 'auto';
                     submitBtn.disabled = false;
-                    submitBtn.innerText = "Kirim Ucapan";
+                    submitBtn.innerText = originalText;
                 }).catch(err => {
                     console.error(err);
                     alert("Gagal mengirim ucapan. Silakan coba lagi.");
                     submitBtn.disabled = false;
-                    submitBtn.innerText = "Kirim Ucapan";
+                    submitBtn.innerText = originalText;
                 });
+            } else {
+                alert("Mohon isi Nama dan Ucapan Anda.");
             }
         });
     </script>
