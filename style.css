@@ -1,0 +1,1071 @@
+:root {
+    --bg-cream: #FDFBF7;
+    --bg-burgundy: #5a0e16; /* Deep elegant burgundy */
+    --text-dark: #2A2A2A;
+    --text-muted: #5C5C5C;
+    --text-light: #FDFBF7;
+    --gold: #C5A059;
+    --gold-light: #E2CD92;
+    --gold-gradient: linear-gradient(135deg, #C5A059, #E2CD92, #C5A059);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-burgundy);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    /* Soft noise texture overlay */
+    background-image: radial-gradient(rgba(197, 160, 89, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Utilities */
+.mt-4 { margin-top: 1rem; }
+.mt-8 { margin-top: 2.5rem; }
+.hidden { display: none !important; }
+
+/* Ornaments */
+.ornament {
+    color: var(--gold);
+    margin: 1rem auto;
+    opacity: 0.8;
+}
+
+.gold-ornament {
+    color: var(--gold);
+    opacity: 0.5;
+}
+
+.top-ornament { margin-bottom: 2rem; }
+.bottom-ornament { margin-top: 2rem; }
+
+/* Dividers */
+.gold-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 3rem 0;
+    opacity: 0.5;
+}
+
+.short-divider {
+    width: 40%;
+    margin: 2rem auto;
+}
+
+/* Cover Page (Burgundy Theme) */
+.cover-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    background-color: var(--bg-burgundy);
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(197, 160, 89, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(197, 160, 89, 0.1), transparent 30%),
+        radial-gradient(rgba(197, 160, 89, 0.08) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 20px 20px;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--gold);
+    overflow: hidden;
+}
+
+/* Glowing Floating Orbs */
+.cover-page::before, .cover-page::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: -1;
+    animation: floatOrb 15s infinite ease-in-out alternate;
+}
+
+.cover-page::before {
+    width: 300px;
+    height: 300px;
+    background: rgba(197, 160, 89, 0.15);
+    top: -10%;
+    left: -10%;
+}
+
+.cover-page::after {
+    width: 400px;
+    height: 400px;
+    background: rgba(153, 27, 27, 0.5); /* Deep red glow */
+    bottom: -15%;
+    right: -10%;
+    animation-delay: -5s;
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(15%, 15%) scale(1.2); }
+}
+
+.cover-page.fade-out {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.98);
+    pointer-events: none;
+}
+
+/* Envelope Animation Structure */
+.envelope-container {
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+    height: 600px;
+    perspective: 1500px;
+    transform-style: preserve-3d;
+    z-index: 10;
+}
+.env-back {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #3a060a;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+.env-pocket {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 75%;
+    background: linear-gradient(135deg, #5a0e16, #4a0b12);
+    border-radius: 0 0 8px 8px;
+    z-index: 5;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    clip-path: polygon(0 0, 50% 15%, 100% 0, 100% 100%, 0 100%);
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.env-flap {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 40%;
+    background: linear-gradient(135deg, #6b111a, #4a0b12);
+    border-radius: 8px 8px 0 0;
+    z-index: 6;
+    transform-origin: top;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.6s;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
+}
+.cover-luxury {
+    position: absolute;
+    top: 15px; left: 15px; right: 15px; height: calc(100% - 30px);
+    z-index: 3;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-cream);
+    border-radius: 4px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    border: 1px solid var(--gold);
+    box-shadow: inset 0 0 15px rgba(197, 160, 89, 0.2);
+    color: var(--text-dark);
+}
+.wax-seal {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    background: var(--gold-gradient);
+    color: var(--bg-burgundy);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.5);
+    cursor: pointer;
+    transform: translateY(37px); /* Setengah tinggi agar menggantung */
+    z-index: 7;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+.wax-seal:hover {
+    transform: translateY(37px) scale(1.05);
+}
+
+/* Instruction Text */
+.instruction-text {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    animation: pulseText 2.5s infinite ease-in-out;
+    opacity: 0.8;
+}
+@keyframes pulseText {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); text-shadow: 0 0 12px rgba(197, 160, 89, 0.6); }
+}
+
+/* Open Animation Classes */
+.envelope-container.open .env-flap {
+    transform: rotateX(180deg);
+    z-index: 1; /* Mundur ke belakang */
+    box-shadow: 0 -10px 15px rgba(0,0,0,0.5); /* Shadow membalik karena flap terbuka */
+}
+.envelope-container.open .instruction-text {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.envelope-container.open .cover-luxury {
+    transform: translateY(-85vh) scale(1.05); /* Tarik lebih tinggi dan sedikit membesar */
+    transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: 0.6s; /* Tunggu flap terbuka */
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+}
+
+.logo-cover {
+    max-height: 90px;
+    width: auto;
+    object-fit: contain;
+    background-color: var(--bg-cream);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid var(--gold);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 10px rgba(197, 160, 89, 0.2);
+}
+
+.subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.dark-subtitle {
+    color: var(--gold);
+}
+
+.title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-top: 0.5rem;
+}
+
+.cover-title {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.05em;
+    text-shadow: 0 4px 20px rgba(197, 160, 89, 0.2);
+}
+
+.recipient-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text-dark); /* Changed from gold to dark text inside card */
+    font-style: italic;
+}
+
+.recipient-label span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+    font-style: normal;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* Main Content (Cream Theme) */
+.main-content {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+    z-index: 10;
+    width: 100%;
+    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.2s ease;
+    transform-origin: center top;
+}
+
+.prepare-popup {
+    opacity: 0;
+    transform: scale(0.7) translateY(100px);
+}
+
+.show-popup {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.luxury-container {
+    background: var(--bg-cream);
+    padding: 1.5rem;
+    width: 95%;
+    max-width: 650px;
+    text-align: center;
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/* Inner Frame */
+.luxury-frame {
+    border: 1px solid var(--gold);
+    padding: 3.5rem 2.5rem;
+    position: relative;
+}
+
+.luxury-frame::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    pointer-events: none;
+}
+
+.header {
+    margin-bottom: 3rem;
+}
+
+.logo-main {
+    max-height: 75px;
+    margin-bottom: 1.5rem;
+    background-color: var(--bg-cream);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--gold);
+    box-shadow: 0 4px 15px rgba(90, 14, 22, 0.1);
+}
+
+.header .main-title {
+    color: var(--bg-burgundy);
+    font-size: 3.2rem;
+    letter-spacing: 0.02em;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photos-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0 auto 2.5rem auto;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.photo-container {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    position: relative;
+    padding: 5px; 
+    background: transparent;
+    border: 2px solid var(--gold);
+    box-shadow: 0 10px 25px -5px rgba(90, 14, 22, 0.15);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease;
+    overflow: hidden; /* Ensure zoomed images stay inside the circle */
+}
+
+.photo-container:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 20px 40px -5px rgba(90, 14, 22, 0.3);
+    z-index: 5;
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid var(--bg-cream);
+    transform-origin: center 20%; /* Zoom towards the face */
+    transition: transform 0.3s ease;
+}
+
+/* Zoom Helpers */
+.zoom-xs { transform: scale(1.1); }
+.zoom-sm { transform: scale(1.2); }
+.zoom-md { transform: scale(1.4); }
+.zoom-lg { transform: scale(1.6); }
+.zoom-xl { transform: scale(1.8); }
+
+.author-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--bg-burgundy);
+    line-height: 1.4;
+    margin-top: 1rem;
+}
+
+.author-name span {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+/* Titles Section */
+.titles-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.title-block {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(197, 160, 89, 0.03);
+    border: 1px solid rgba(197, 160, 89, 0.15);
+    border-radius: 4px;
+}
+
+.title-tag {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--bg-cream);
+    padding: 0 10px;
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.seminar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--bg-burgundy);
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Message Section */
+.message-section {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-dark);
+    padding: 0 1rem;
+    font-weight: 400;
+}
+
+.greeting {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: var(--bg-burgundy);
+}
+
+/* Details Section */
+.details-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.detail-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: transparent;
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    transition: transform 0.4s ease, background-color 0.4s ease;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.detail-card:hover {
+    transform: translateY(-2px);
+    background-color: rgba(197, 160, 89, 0.05);
+}
+
+.detail-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    color: var(--bg-burgundy);
+    flex-shrink: 0;
+    box-shadow: inset 0 0 10px rgba(197, 160, 89, 0.15);
+}
+
+.detail-text h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+}
+
+.detail-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--bg-burgundy);
+    line-height: 1.2;
+}
+
+/* Footer */
+.footer {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+.closing {
+    margin-top: 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--bg-burgundy);
+}
+
+.see-you {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bg-burgundy);
+}
+
+.gift-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+/* Buttons */
+.btn-gold {
+    font-family: 'Montserrat', sans-serif;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    padding: 1.2rem 3rem;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gold::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--gold-gradient);
+    z-index: -1;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+}
+
+.btn-gold:hover {
+    color: var(--bg-burgundy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
+    border-color: transparent;
+}
+
+.btn-gold:hover::before {
+    opacity: 1;
+}
+
+/* Animations */
+.reveal {
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .luxury-container {
+        padding: 1rem;
+        width: 100%;
+    }
+    
+    .luxury-frame {
+        padding: 2.5rem 1.25rem;
+    }
+    
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .cover-title {
+        font-size: 2.8rem;
+    }
+    
+    .photos-grid {
+        gap: 1rem;
+    }
+    
+    .photo-container {
+        width: 110px;
+        height: 110px;
+    }
+
+    .author-name {
+        font-size: 1.4rem;
+    }
+    
+    .author-name {
+        font-size: 1.8rem;
+    }
+    
+    .detail-card {
+        padding: 1rem 0.5rem;
+        gap: 1rem;
+    }
+    
+    .detail-icon {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .detail-text p {
+        font-size: 1.2rem;
+    }
+    
+    .signature {
+        font-size: 1.6rem;
+    }
+}
+
+/* =========================================
+   ANIMASI TAMBAHAN (FULL ANIMATED)
+========================================= */
+
+/* 1. Staggered Entrance Animations (Cover) */
+.animate-drop, .animate-zoom, .animate-expand, .animate-fade, .animate-pop, .animate-up {
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animate-drop { animation-name: dropIn; animation-duration: 1.2s; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+.animate-zoom { animation-name: zoomIn; animation-duration: 1.5s; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.animate-expand { animation-name: expandWidth; animation-duration: 1.2s; animation-timing-function: ease-out; }
+.animate-fade { animation-name: fadeIn; animation-duration: 1.5s; animation-timing-function: ease-in-out; }
+.animate-pop { animation-name: popIn; animation-duration: 1s; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.animate-up { animation-name: slideUp; animation-duration: 1.2s; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+/* Delay classes */
+.stagger-1 { animation-delay: 0.2s; }
+.stagger-2 { animation-delay: 0.6s; }
+.stagger-3 { animation-delay: 1.0s; }
+.stagger-4 { animation-delay: 1.4s; }
+.stagger-5 { animation-delay: 1.8s; }
+.stagger-6 { animation-delay: 2.2s; }
+.stagger-7 { animation-delay: 2.5s; }
+
+/* Keyframes */
+@keyframes dropIn { 
+    from { opacity: 0; transform: translateY(-40px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes zoomIn { 
+    from { opacity: 0; transform: scale(0.9) translateY(10px); } 
+    to { opacity: 1; transform: scale(1) translateY(0); } 
+}
+@keyframes expandWidth { 
+    from { opacity: 0; width: 0; } 
+    to { opacity: 0.5; width: 40%; } 
+}
+@keyframes fadeIn { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
+@keyframes popIn { 
+    from { opacity: 0; transform: scale(0.8) translateY(20px); } 
+    to { opacity: 1; transform: scale(1) translateY(0); } 
+}
+@keyframes slideUp { 
+    from { opacity: 0; transform: translateY(40px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+/* 2. Continuous Element Animations */
+
+/* Ornaments Pulse */
+.ornament svg {
+    animation: slowPulse 4s infinite alternate ease-in-out;
+    transform-origin: center;
+}
+@keyframes slowPulse {
+    0% { transform: scale(0.98); opacity: 0.6; filter: drop-shadow(0 0 2px rgba(197, 160, 89, 0.2)); }
+    100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.6)); }
+}
+
+/* Button Continuous Shine */
+.btn-gold::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 30%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    animation: shineSweep 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes shineSweep {
+    0%, 60% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* Frame Glow */
+.luxury-frame {
+    animation: borderGlow 5s infinite alternate ease-in-out;
+}
+@keyframes borderGlow {
+    0% { box-shadow: 0 0 10px rgba(197, 160, 89, 0.1); }
+    100% { box-shadow: 0 0 35px rgba(197, 160, 89, 0.35); }
+}
+
+/* 3. Particle System (Starry Dust) */
+.particles-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1; /* Di bawah elemen cover */
+    background-image: 
+        radial-gradient(1.5px 1.5px at 10% 20%, var(--gold) 100%, transparent),
+        radial-gradient(2px 2px at 30% 50%, var(--gold-light) 100%, transparent),
+        radial-gradient(1px 1px at 70% 80%, var(--gold) 100%, transparent),
+        radial-gradient(2.5px 2.5px at 80% 30%, var(--gold) 100%, transparent),
+        radial-gradient(1px 1px at 40% 10%, var(--gold-light) 100%, transparent),
+        radial-gradient(1.5px 1.5px at 90% 70%, var(--gold) 100%, transparent),
+        radial-gradient(2px 2px at 20% 85%, var(--gold-light) 100%, transparent),
+        radial-gradient(1px 1px at 60% 40%, var(--gold) 100%, transparent);
+    background-size: 150px 150px;
+    animation: starryDrift 40s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes starryDrift {
+    0% { transform: translateY(0) scale(1); opacity: 0.2; }
+    50% { opacity: 0.6; transform: translateY(-50px) scale(1.05); }
+    100% { transform: translateY(-100px) scale(1); opacity: 0.2; }
+}
+
+/* =========================================
+   GIMMICK PREMIUM (AUDIO, TIMER, PARALLAX)
+========================================= */
+
+
+
+/* Countdown Timer */
+.countdown-wrapper {
+    width: 100%;
+    margin: 3rem 0;
+    text-align: center;
+}
+.countdown-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--bg-burgundy);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.countdown-box {
+    background: rgba(197, 160, 89, 0.1);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: 8px;
+    padding: 15px 10px;
+    min-width: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: inset 0 0 15px rgba(197, 160, 89, 0.05), 0 5px 15px rgba(0,0,0,0.05);
+    backdrop-filter: blur(5px);
+}
+.countdown-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--bg-burgundy);
+    line-height: 1;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 4px rgba(197, 160, 89, 0.3);
+}
+.countdown-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-dark);
+    font-weight: 500;
+}
+
+@media (max-width: 480px) {
+    .countdown-box {
+        min-width: 60px;
+        padding: 10px 5px;
+    }
+    .countdown-number { font-size: 1.5rem; }
+}
+
+/* Guestbook Section Minimalist Luxury */
+.guestbook-section {
+    margin: 8rem auto 4rem auto;
+    padding: 2rem;
+    max-width: 1000px;
+    background: transparent;
+}
+
+.guestbook-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--bg-burgundy);
+    margin-bottom: 5rem;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.comment-form {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto 6rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    box-shadow: none;
+}
+
+.form-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    margin-bottom: 2.5rem !important; /* Increased for breathing room between fields */
+    text-align: left !important;
+}
+
+.form-group label {
+    display: block !important;
+    width: 100% !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 1.2rem !important;
+    font-style: italic !important;
+    color: var(--bg-burgundy) !important;
+    margin-bottom: 0.2rem !important; /* Reduced to pull text closer */
+    font-weight: 600 !important;
+}
+
+.form-group input, .form-group textarea {
+    display: block !important;
+    width: 100% !important;
+    padding: 0.5rem 0 !important; /* Minimal padding for cleaner look */
+    border: none !important;
+    border-bottom: 1.2px solid rgba(197, 160, 89, 0.4) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 1rem !important;
+    color: var(--text-dark) !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+.form-group textarea {
+    min-height: 1.5rem !important; /* Forces underline to stay close to text */
+    padding-bottom: 0 !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.6 !important;
+    overflow: hidden;
+    resize: none;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none !important;
+    border-bottom: 1.8px solid var(--gold) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+#submitBtn {
+    width: 100%;
+    padding: 1.2rem;
+    margin-top: 1rem;
+    background: var(--bg-burgundy);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    letter-spacing: 0.3em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#submitBtn:hover {
+    background: var(--gold);
+    color: var(--bg-burgundy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
+}
+
+.comments-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 3rem;
+    max-height: 800px;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .comments-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.comment-card {
+    background: rgba(197, 160, 89, 0.03);
+    padding: 2.5rem;
+    border-radius: 0;
+    text-align: left;
+    box-shadow: none;
+    border: 1px solid rgba(197, 160, 89, 0.1);
+    position: relative;
+    border-left: 3px solid var(--gold);
+}
+
+.comment-card::before {
+    display: none; /* Removed for minimalist look */
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px dashed rgba(197, 160, 89, 0.2);
+    padding-bottom: 1rem;
+}
+
+.comment-author {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--bg-burgundy);
+}
+
+.comment-time {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.comment-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+    font-style: italic;
+}
+
+.empty-state {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    grid-column: 1 / -1;
+    margin: 4rem 0;
+    text-align: center;
+}
+
+.loading-spinner {
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 2rem 0;
+}
+
